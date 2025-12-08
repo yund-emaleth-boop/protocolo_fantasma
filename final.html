@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROTOCOLO FANTASMA: SECUENCIA FINAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="scanline-overlay"></div>
+
+    <div class="contenedor-nucleo" style="text-align: center; padding: 40px;">
+        <h1 class="glitch-text" style="font-size: 2.5em; margin-bottom: 30px;">SECUENCIA DE REINICIO MAESTRO</h1>
+
+        <p style="text-align: center; font-size: 1.1em; margin-bottom: 30px; line-height: 1.8;">
+            PROTOCOLO DE REINICIO ACTIVO.<br>
+            RAOUL Y ERIK ALCANZAN EQUILIBRIO.<br>
+            EL ENGRANAJE CERO VUELVE A LATIR.
+        </p>
+        
+        <p class="resaltado" style="margin-top: 15px; text-align: center;">Clave de Reinicio Maestro:</p>
+        
+        <div class="clave-final-display" id="clave-final-display" style="text-align: center; font-size: 1.5em; margin: 15px 0;">
+            </div>
+
+        <div style="text-align: center; margin-top: 50px;">
+            <button id="boton-final" class="boton-caratula">
+                EJECUTAR PROTOCOLO FINAL
+            </button>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // URL de destino final ACTUALIZADA a la ruta limpia
+        const FINAL_URL = 'https://sites.google.com/view/engranaje-cero/protocolo-final'; 
+        
+        // Usamos 'enigmasGuardados' tal como se guarda en script.js
+        const savedEnigmasString = localStorage.getItem('enigmasGuardados'); 
+        const displayArea = document.getElementById('clave-final-display');
+        const finalButton = document.getElementById('boton-final');
+        
+        // 1. Manejo de errores (si no hay datos)
+        if (!savedEnigmasString) {
+            displayArea.innerHTML = '<span class="glitch-error">ERROR: DATOS DE CLAVE NO ENCONTRADOS</span>';
+            finalButton.disabled = true;
+            return;
+        }
+
+        const savedEnigmas = JSON.parse(savedEnigmasString);
+        let delayMs = 0;
+        const staggerTime = 250; 
+
+        // 2. Inyectar y animar los componentes de la clave (Fade-in y Pulse)
+        savedEnigmas.forEach((enigma, index) => {
+            const bloque = enigma.respuesta; 
+            
+            if (bloque) {
+                // Crear el separador visual entre números
+                if (index > 0) {
+                     const separator = document.createElement('span');
+                     separator.textContent = ' | ';
+                     // Se elimina el color explícito para que use el CSS global.
+                     separator.style.opacity = 0.5; // Lo ponemos tenue
+                     separator.style.fontSize = '0.8em';
+                     displayArea.appendChild(separator);
+                }
+
+                const span = document.createElement('span');
+                span.className = 'componente-clave'; // Esta clase debe definir el color naranja en style.css
+                span.textContent = bloque;
+                
+                displayArea.appendChild(span);
+
+                // Aplica el fade-in y el latido con retraso
+                setTimeout(() => {
+                    span.classList.add('loaded'); 
+                }, delayMs);
+                
+                delayMs += staggerTime; 
+            }
+        });
+
+        // 3. Lógica del botón de redirección
+        finalButton.onclick = function() {
+            window.open(FINAL_URL, '_blank'); 
+        }
+
+    });
+    </script>
+</body>
+</html>

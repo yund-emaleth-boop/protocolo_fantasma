@@ -1,0 +1,388 @@
+/* PALETA DE COLORES */
+:root {
+    --color-primary-neon: #00cccc;      /* Título y Enigmas (Cian más oscuro) */
+    --color-secondary-neon: #88ffff;     /* Agente (Cian claro y brillante) */
+    --color-text-main: #e6f7ff;          
+    --color-text-secondary: #a0c0e0;     /* Texto secundario/etiquetas */
+    --color-error-glitch: #ff3366; 
+    --color-background-void: #030a13; 
+    --color-background-panel: #0d1e2e; 
+    --color-shadow-pulse: rgba(136, 255, 255, 0.8); 
+    --color-border-grid: rgba(136, 255, 255, 0.2); 
+}
+
+/* ESTILOS BASE Y GLITCH DE FONDO */
+body {
+    background-color: var(--color-background-void);
+    color: var(--color-text-main);
+    font-family: 'Roboto', sans-serif;
+    padding: 0;
+    margin: 0;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* EFECTO DE LÍNEAS DE ESCANEO (Scanline) */
+.scanline-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.05),
+        rgba(0, 0, 0, 0.2) 1px,
+        transparent 2px,
+        transparent 3px
+    );
+    z-index: 999;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.contenedor-nucleo, .container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: var(--color-background-panel);
+    border: 1px solid var(--color-border-grid);
+    box-shadow: 0 0 20px var(--color-shadow-pulse);
+    border-radius: 8px;
+    animation: pulse-glow 2s infinite alternate;
+}
+
+/* ANIMACIÓN DE GLOW */
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 20px rgba(136, 255, 255, 0.3); }
+    100% { box-shadow: 0 0 30px rgba(136, 255, 255, 0.8); }
+}
+
+/* ANIMACIÓN DE PARPADEO SUTILE (Glitch Text) */
+@keyframes flicker {
+    0% { opacity: 1; text-shadow: 0 0 5px var(--color-secondary-neon); }
+    50% { opacity: 0.9; text-shadow: 0 0 8px var(--color-secondary-neon); }
+    52% { opacity: 1; }
+    70% { opacity: 0.85; }
+    100% { opacity: 1; text-shadow: 0 0 5px var(--color-secondary-neon); }
+}
+
+.glitch-text {
+    animation: flicker 0.15s infinite alternate;
+}
+
+/* GLITCH AGRESIVO (Para el título de la Carátula) */
+.glitch-main {
+    position: relative;
+    animation: flicker 0.2s infinite alternate;
+}
+.glitch-main::before,
+.glitch-main::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.glitch-main::before {
+    left: 2px;
+    text-shadow: -2px 0 var(--color-error-glitch); /* Rojo/Magenta */
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+.glitch-main::after {
+    left: -2px;
+    text-shadow: -2px 0 var(--color-primary-neon); /* Cian */
+    clip: rect(85px, 450px, 100px, 0);
+    animation: glitch-anim-2 2s infinite linear alternate;
+}
+
+@keyframes glitch-anim-1 {
+    0% { clip: rect(74px, 9999px, 83px, 0); transform: skew(0.5deg); }
+    50% { clip: rect(25px, 9999px, 44px, 0); transform: skew(0.1deg); }
+    100% { clip: rect(60px, 9999px, 70px, 0); transform: skew(0deg); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip: rect(10px, 9999px, 20px, 0); transform: skew(-0.1deg); }
+    50% { clip: rect(55px, 9999px, 65px, 0); transform: skew(-0.5deg); }
+    100% { clip: rect(90px, 9999px, 100px, 0); transform: skew(0deg); }
+}
+
+/* TÍTULOS GENERALES */
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--color-secondary-neon);
+    text-align: center;
+    font-size: 2.5em; 
+    text-shadow: 0 0 10px var(--color-secondary-neon);
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+h3 {
+    color: var(--color-primary-neon);
+    font-size: 1.2em;
+    margin-top: 20px;
+    border-bottom: 1px dashed var(--color-border-grid);
+    padding-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.resaltado {
+    color: var(--color-secondary-neon);
+    font-weight: bold;
+}
+
+.alerta-error {
+    color: var(--color-error-glitch);
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+    border: 1px solid var(--color-error-glitch);
+    margin: 30px 0;
+    animation: flicker 0.5s infinite alternate; /* Animación de parpadeo */
+}
+
+/* ESTILOS ESPECÍFICOS DE CARÁTULA (index.html) */
+#caratula {
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.titulo-caratula {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5em; /* Tamaño grande para desktop */
+    color: var(--color-secondary-neon);
+    text-shadow: 0 0 15px var(--color-secondary-neon);
+    margin-bottom: 5px;
+    letter-spacing: 3px;
+}
+
+.subtitulo-caratula {
+    color: var(--color-text-secondary);
+    font-size: 1.2em;
+    margin-bottom: 50px;
+}
+
+.boton-caratula {
+    padding: 15px 30px;
+    font-size: 1.4em;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(45deg, var(--color-primary-neon), #0099ff);
+    color: var(--color-background-void);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--color-primary-neon);
+    transition: all 0.3s ease;
+}
+
+.boton-caratula:hover {
+    box-shadow: 0 0 25px var(--color-secondary-neon);
+    transform: scale(1.05);
+}
+
+/* ESTILOS ESPECÍFICOS DEL JUEGO (juego.html) */
+#enigma-texto {
+    font-size: 1.1em;
+    background-color: var(--color-background-void);
+    padding: 20px;
+    border-left: 3px solid var(--color-primary-neon);
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 204, 204, 0.2);
+    font-family: 'Roboto', monospace;
+}
+
+.pista {
+    color: var(--color-text-secondary);
+    font-style: italic;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+#interaccion-area {
+    margin-top: 25px;
+}
+
+#interaccion-area div {
+    display: flex;
+    align-items: center;
+}
+
+#respuesta {
+    flex-grow: 1;
+    padding: 12px;
+    background-color: #001a2b;
+    color: var(--color-secondary-neon);
+    border: 1px solid var(--color-primary-neon);
+    border-radius: 4px;
+    font-size: 1.1em;
+    font-family: 'Orbitron', monospace;
+    text-align: center;
+    margin-right: 10px;
+}
+
+#interaccion-area button {
+    padding: 12px 20px;
+    background: linear-gradient(45deg, #00b300, #4dff4d);
+    color: var(--color-background-void);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 8px #00ff00;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+}
+
+#interaccion-area button:hover:not(:disabled) {
+    background: linear-gradient(45deg, #00cc00, #66ff66);
+    box-shadow: 0 0 15px #00ff00;
+}
+
+#interaccion-area button:disabled {
+    background: #555;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+/* Estilo para el área final con la clave */
+.clave-final-display {
+    padding: 15px;
+    background: #100a03;
+    color: var(--color-secondary-neon); /* CAMBIO: Cian Brillante */
+    font-size: 1.4em;
+    text-align: center;
+    margin: 20px 0;
+    border: 2px dashed var(--color-secondary-neon); /* CAMBIO: Borde Cian Brillante */
+    border-radius: 5px;
+    font-family: 'Orbitron', monospace;
+    letter-spacing: 2px;
+    user-select: text;
+}
+
+/* Estilos de mensaje */
+#mensaje-area.correcto {
+    color: #39ff14; /* Neon Green */
+    text-shadow: 0 0 5px #39ff14;
+    animation: pulse-success 0.5s infinite alternate;
+}
+#mensaje-area.incorrecto {
+    color: var(--color-error-glitch); 
+    text-shadow: 0 0 5px var(--color-error-glitch);
+}
+
+@keyframes pulse-success {
+    0% { opacity: 0.8; }
+    100% { opacity: 1.0; }
+}
+
+/* Estilo para la narrativa de resolución */
+.mensaje-constante-resuelto {
+    padding: 15px;
+    border: 1px solid rgba(136, 255, 255, 0.4);
+    border-radius: 4px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    background-color: #051421; /* Fondo ligeramente más oscuro */
+    color: var(--color-text-main);
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+/* Estilos de navegación */
+#navegacion-area button {
+    background: #004d80;
+    box-shadow: 0 0 10px rgba(0, 77, 128, 0.5);
+    padding: 10px 20px;
+    font-family: 'Roboto', sans-serif;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#navegacion-area button:hover:not(:disabled) {
+    background: #0066a3;
+    box-shadow: 0 0 15px rgba(0, 102, 163, 0.8);
+}
+
+#navegacion-area button:disabled {
+    background: #1a2b38;
+    color: #667e91;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* CORRECCIÓN DE ANCHURA (RESPONSIVE) */
+@media (max-width: 600px) {
+    .titulo-caratula {
+        font-size: 2.5em; /* Reducido para móvil */
+        line-height: 1.1;
+        letter-spacing: 1px;
+    }
+    .contenedor-nucleo, .container {
+        padding: 20px 15px;
+        margin: 20px auto;
+    }
+    h1 {
+        font-size: 2.0em; /* Reducido para los títulos de la intro/enigmas en móvil */
+    }
+    #interaccion-area div {
+        flex-direction: column;
+    }
+    #respuesta {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+
+/* ------------------------------------------- */
+/* --- ESTILOS DE FADE-IN Y PULSE (CLAVE FINAL) --- */
+/* ------------------------------------------- */
+
+/* Animación de Latido (Pulse) para la clave */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+        text-shadow: 0 0 5px var(--color-secondary-neon);
+    }
+    50% {
+        opacity: 0.9;
+        transform: scale(1.03); /* Ligero aumento de tamaño para el latido */
+        text-shadow: 0 0 15px var(--color-shadow-pulse), 0 0 5px var(--color-secondary-neon);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        text-shadow: 0 0 5px var(--color-secondary-neon);
+    }
+}
+
+/* Clase base del componente de clave: oculta inicialmente y lista para el fade-in */
+.componente-clave {
+    display: inline-block; 
+    margin: 0 6px; 
+    color: var(--color-secondary-neon);
+    font-weight: 700;
+    opacity: 0; /* Oculto inicialmente para el Fade-in */
+    transition: opacity 0.5s ease-out; /* Transición para el Fade-in */
+}
+
+/* Clase que activa el latido y la visibilidad tras el Fade-in */
+.componente-clave.loaded {
+    opacity: 1;
+    animation: pulse 2s infinite alternate ease-in-out;
+}
