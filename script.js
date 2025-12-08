@@ -183,8 +183,9 @@ function actualizarControles() {
     const resuelta = enigmas[nivelActual].respuestaGuardada !== "";
     const enNarrativa = enigmas[nivelActual].enModoNarrativa;
 
-    // El botón Anterior siempre estará habilitado si no es el nivel 1
-    botonAnt.disabled = (nivelActual === 0 && !enNarrativa); 
+    // CORRECCIÓN: El botón Anterior se deshabilita SOLO si el nivel está en modo narrativa 
+    // (forzando a usar 'Continuar'). De lo contrario, siempre está habilitado para navegar.
+    botonAnt.disabled = enNarrativa;
 
     // Botón Siguiente:
     if (enNarrativa) {
